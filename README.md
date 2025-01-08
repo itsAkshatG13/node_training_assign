@@ -13,7 +13,9 @@ This is a simple URL shortener application built with Node.js and Express.js. It
 
 **Setup Instructions
 Pre-requisites:**
+
 Node.js (v18.17.0)
+
 npm (Node Package Manager) (9.6.7)
 
 **Clone the Repository:**
