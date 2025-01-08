@@ -32,6 +32,7 @@ npm install express dotenv
 `node short_url.js`
 
 Run the POST request on POSTMAN to test the endpoints.
+
 _POST endpoint: http://localhost:3000/shorten_
 POST body: {
     "longUrl":"your_long_url_here"
@@ -42,4 +43,5 @@ POST response: {
 }
 
 _GET endpoint: "http://localhost:3000/r/<shortId>"_
+
 Open your browser and go to http://localhost:3000/r/<shortId> to test the redirection of the url.
