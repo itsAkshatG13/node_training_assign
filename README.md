@@ -4,8 +4,11 @@
 This is a simple URL shortener application built with Node.js and Express.js. It allows users to shorten a long URL and access it using a shorter version. The app stores URL mappings in memory and provides functionality to redirect users to the original URL.
 
 **Features:**
+
 1.Shorten URL- Convert a long URL into a short, unique identifier.
+
 2.Redirect- Use the short URL to redirect to the original long URL.
+
 3.In-memory Storage- Stores URLs temporarily in memory (non-persistent).
 
 **Setup Instructions
