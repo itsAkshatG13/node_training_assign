@@ -5,7 +5,7 @@ const app = express();
 const urlStore = {};
 
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 let count = 1; // Simple count to generate unique IDs
 
@@ -30,7 +30,7 @@ app.post('/shorten', (req, res) => {
   
   //Response json
   res.json({
-    shortUrl: `http://localhost:${port}/sh/${shortId}`,
+    shortUrl: `http://localhost:${port}/r/${shortId}`,
     shortId: shortId,
   });
 });
