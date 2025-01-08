@@ -19,19 +19,19 @@ Node.js (v18.17.0)
 npm (Node Package Manager) (9.6.7)
 
 **Clone the Repository:**
+
 ```
 git clone https://git.geekyants.com/akshatg/node_training_assign.git
 git pull origin main
 cd node_training_assign
 ```
 
-
 **Install Dependencies:**
+
 ```
 npm install
 npm install express dotenv
 ```
-
 
 **Run the Application:**
 `node short_url.js`
@@ -41,12 +41,12 @@ Run the POST request on POSTMAN to test the endpoints.
 _POST endpoint: http://localhost:3000/shorten_
 
 POST body: {
-    "longUrl":"your_long_url_here"
+"longUrl":"your_long_url_here"
 }
 
 POST response: {
-    "shortUrl": "http://localhost:3000/sh/1",
-    "shortId": "1"
+"shortUrl": "http://localhost:3000/r/<shortId>",
+"shortId": <shortId>
 }
 
 _GET endpoint: "http://localhost:3000/r/<shortId>"_
