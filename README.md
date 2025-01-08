@@ -34,9 +34,11 @@ npm install express dotenv
 Run the POST request on POSTMAN to test the endpoints.
 
 _POST endpoint: http://localhost:3000/shorten_
+
 POST body: {
     "longUrl":"your_long_url_here"
 }
+
 POST response: {
     "shortUrl": "http://localhost:3000/sh/1",
     "shortId": "1"
