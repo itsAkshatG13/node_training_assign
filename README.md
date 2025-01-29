@@ -1,16 +1,20 @@
-**Buffer Program to Read and Copy a File Content**
+**Pub-Sub Order Management System with JWT Authentication**
 
 **Overview:**
-This is a simple program to read the contents of a text file into a buffer and log the string in console. The logged data is written on a new text output file in the root directory.
+This is a simple PUB-SUB program to simulate some events related to a user's order. The order events are created, processed and shipped which are logged in events.log file. Also JWT authentication is added for verification.
 
 **Features:**
 
-1.Read File In Buffer -Reading the contents of a text file using buffer implementation.
+1.JWT Authentication for secure access.
 
-2.Logging and Writing Content In a File- Use the read buffer to copy the contents of input file and write to a new output file.
+2.Pub-Sub mechanism using the events module.
 
-**Setup Instructions
-Pre-requisites:**
+3.Logging of events (orderCreated, orderProcessed, orderShipped) to a file.
+
+4.Express API for login and triggering order events.
+
+**Setup Instructions**
+Pre-requisites:\*\*
 
 -Node.js (v18.17.0)
 
@@ -22,27 +26,43 @@ Pre-requisites:**
 
 ```
 git clone https://git.geekyants.com/akshatg/node_training_assign.git
-git checkout -b buffer/file
-git pull origin buffer/file
+git checkout -b advance/order-management
+git pull origin advance/order-management
 cd node_training_assign
 ```
 
 **Install Dependencies:**
 
 ```
-npm install express dotenv
-npm install --save-dev typescript @types/node @types/express
+npm install express jsonwebtoken dotenv body-parser
+npm install --save-dev typescript @types/node @types/express @types/jsonwebtoken @types/body-parser
 npx tsc
 ```
 
 **Run the Application:**
 `node dist/app.js`
 
-Run the GET request on POSTMAN to test the endpoints.
+Run the POST request on POSTMAN to test the endpoints.
 
-\_GET endpoint: http://localhost:3000/save-file
+1. \_POST endpoint: http://localhost:3000/login
+   body: {
+   "username": "test",
+   "password": "1234"
+   }
 
-GET response: {
-"file-contents": "<file content>",
-"msg": <msg>
+POST response: {
+<token>
 }
+
+2. \_POST endpoint: http://localhost:3000/purchase-order
+   headers:{
+   authorization: Bearer <token>
+   }
+
+POST response: {
+Order created <order-id>
+Order process <order-id>
+Order shipped <order-id>
+}
+
+3. Check directory logs/events.log for detailed logs with timestamps for the event.

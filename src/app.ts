@@ -1,53 +1,49 @@
-import express from "express";
-import fs from "fs";
-import dotenv from "dotenv";
-
-// Load environment variables from .env file
-dotenv.config();
+import express, { Request, Response } from "express";
+import bodyParser from "body-parser";
+import { generateToken, authenticateJWT } from "./auth";
+import { pubsub } from "./order_manager";
 
 const app = express();
-const PORT =  process.env.PORT || 3000;
+app.use(bodyParser.json());
 
-// Route to handle the file processing
-app.get("/save-file", (req, res) => {
-  const inputFilePath = "./input.txt";
-  const outputFilePath = "./output.txt";
+// Login route to get a JWT token
+app.post("/login", (req: Request, res: Response):void => {
+  const { username, password } = req.body;
 
-  // Step 1: Read the text file into a buffer
-  fs.readFile(inputFilePath, (err, buffer) => {
-    if (err) {
-      console.error("Error reading the file:", err);
-      res.status(500).send("Error reading the file.");
-      return;
-    }
-    //Alternatively one can also use below code instead of above:
-     // const buffer = fs.readFileSync(inputFilePath); // Buffer contains raw binary data
-     // const fileContent = buffer.toString();
+  // Dummy authentication for demo purposes
+  if (username === "test" && password === "1234") {
+    const token = generateToken(username);
+     res.json({ token });
+     return;
+  }
 
-    const fileContent = buffer.toString();
-    console.log("File Content:", fileContent);
+  res.status(401).send("Invalid credentials.");
+  return;
+});
 
-    // Step 3: Convert the string(fileContent) back to buffer
-    // and write the string back into a output file.
-    fs.writeFile(outputFilePath, fileContent, (err) => {
-      if (err) {
-        console.error("Error writing to the file:", err);
-        res.status(500).send("Error writing to the file.");
-        return;
-      }
-      //Alternatively the below code can also be used for converting string to buffer and 
-      // writing to output fileContent.
-       // const outputBuffer = Buffer.from(fileContent); // Convert string back to Buffer
-       // fs.writeFileSync(outputFilePath, outputBuffer);
- 
-      res.send({
-        file_content: `${fileContent}`,
-        msg : "File processed successfully. Check 'output.txt'."});
-    });
-  });
+// Protected route to simulate order events
+app.post("/purchase-order", authenticateJWT, (req: Request, res: Response):void => {
+  const orderId = Math.floor(Math.random() * 1000); // Generate a random order ID
+
+  // Emit 'orderCreated' event
+  pubsub.publish("orderCreated", orderId);
+
+  // Simulate a delay for order processing
+  setTimeout(() => {
+    pubsub.publish("orderProcessed", orderId);
+
+    // Simulate another delay for order shipping
+    setTimeout(() => {
+      pubsub.publish("orderShipped", orderId);
+    }, 2000);
+  }, 2000);
+
+  res.send("Order events simulated successfully.");
+  return;
 });
 
 // Start the server
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
